@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutAdmin}">
+
+<head th:replace="layout/layoutAdmin :: head">
+    <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+    <title>Listado de Categoria de Vehiculos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</head>
+<body>
+
+<div class="container-fluid" layout:fragment="page-content">
+  <div class="col-xl-12 col-md-12 mb-4">
+
+    <h1 class="text-center font-weight-bold">LISTADO DE CATEGORIAS</h1>
+
+    <br>
+    <div class="container">
+
+<!--      <a href="/catvehiculos/catregistrar" class="btn btn-info mb-3" style="padding: 10px 20px;">Registrar Nuevo Cliente</a>-->
+
+      <div class="d-flex align-items-center">
+        <!-- BOTÓN PARA IR A AGREGAR REGISTROS-->
+        <a href="/catvehiculos/catregistrar" class="btn btn-custom me-2">
+          <img th:src="@{/img/boton_agregar.png}" alt="" width="40px" height="40px" /> Registrar Nueva Categoria
+        </a>
+
+      </div>
+
+      <br>
+
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr class="text-center">
+          <th>ID</th>
+          <th>Marca</th>
+          <th>Activo</th>
+          <th>Tipo</th>
+          <th>Descripcion</th>
+
+          <th>Editar</th>
+          <th>Detalle</th>
+          <th>Eliminar</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="catvehiculo : ${catvehiculos}">
+          <td class="text-center" th:text="${catvehiculo.id_cat}"></td>
+          <td th:text="${catvehiculo.Marca}"></td>
+          <td class="text-center" th:text="${catvehiculo.activo}"></td>
+          <td th:text="${catvehiculo.Tipo}"></td>
+          <td th:text="${catvehiculo.Descripcion}"></td>
+
+          <td style="width: auto; text-align: center;">
+            <form th:action="@{/catvehiculos/cateditar/{id}(id=${catvehiculo.id_cat})}" style="margin: 0;">
+              <button type="submit" class="btn btn-warning w-auto text-center px-3">
+                Editar
+              </button>
+            </form>
+          </td>
+
+
+          <td style="width: auto; text-align: center;">
+            <form th:action="@{/catvehiculos/catdetalles/{id}(id=${catvehiculo.id_cat})}" style="margin: 0;">
+              <button type="submit" class="btn btn-primary w-auto text-center px-3">
+                Detalles
+              </button>
+            </form>
+          </td>
+
+          <td style="width: auto; text-align: center;">
+            <form th:action="@{/catvehiculos/cateliminar/{id}(id=${catvehiculo.id_cat})}" method="post" style="margin: 0;">
+              <button type="submit" class="btn btn-danger w-auto text-center px-3">
+                Eliminar
+              </button>
+            </form>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<th:block layout:fragment="page-scripts">
+
+</th:block>
+
+</body>
+</html>
+
+
+<script>
+  document.querySelectorAll(".delete-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const form = this.closest("form"); // Encuentra el formulario más cercano
+
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esta acción!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "No, cancelar",
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Envía el formulario si el usuario confirma
+          form.submit();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+                  "Cancelado",
+                  "El cliente no fue eliminado.",
+                  "error"
+          );
+        }
+      });
+    });
+  });
+
+</script>

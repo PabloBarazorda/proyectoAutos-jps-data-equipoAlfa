@@ -1,0 +1,21 @@
+
+
+ .custom-height {
+     height: 500px;
+ }
+
+.table-fixed-height {
+    max-height: 500px;
+    overflow-y: auto;
+    max-width: 2000px;
+}
+
+.btn-custom {
+    background-color: #4370e7;
+    color: white;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #e7edfc;
+}
